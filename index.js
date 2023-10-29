@@ -1,11 +1,28 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const { dummyData } = require('./dummyData');
+var cors = require('cors')
+const app = express();
+const port = 4000;
+
+app.use(cors());
 
 app.get('/', function (req, res) {
-  res.send('Hello World')
-})
+  res.send('This is Dongeui Machine API!');
+});
 
-app.listen(4000, ()=>{
+app.get('/products', function (req, res) {
+  res.send(dummyData);
+});
+
+app.get('/products/:id', function (req, res) {
+  const { id } = req.params;
+
+  res.send({
+    data : dummyData.data.filter(e => e.id===Number(id))[0]
+  })
+});
+
+app.listen(port, ()=>{
     let figlet = require("figlet");
 
     figlet("DONGEUI", function (err, data) {
@@ -17,4 +34,3 @@ app.listen(4000, ()=>{
         console.log(data);
     });
 });
-
